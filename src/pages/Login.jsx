@@ -15,7 +15,7 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [forgotPasswordState, setForgotPasswordState] = useState(false);
@@ -32,10 +32,15 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (email !== "" && password !== "") {
+    const validateEmail = () => {
+      const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      return regex.test(emailOrUsername);
+    };
+
+    if (emailOrUsername !== "" && password !== "") {
       dispatch(
         login({
-          email,
+          [validateEmail() ? "email" : "username"]: emailOrUsername,
           password,
         })
       );
@@ -65,10 +70,10 @@ const Login = () => {
       toast.error(message);
     }
     if ((isSuccess || user) && !forgotEmail) {
-      navigate("/dashboard");
+      navigate("/admin/links");
     }
 
-    setEmail("");
+    setEmailOrUsername("");
     setPassword("");
 
     dispatch(reset());
@@ -121,15 +126,16 @@ const Login = () => {
               <TextField
                 InputProps={{ sx: { borderRadius: "0.5rem" } }}
                 required
-                label="Email"
+                label="Email or username"
                 fullWidth
                 margin="normal"
                 variant="outlined"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={emailOrUsername}
+                onChange={(e) => setEmailOrUsername(e.target.value)}
               />
               <TextField
                 type={showPassword ? "password" : "text"}
+                required
                 label="Password"
                 fullWidth
                 margin="normal"

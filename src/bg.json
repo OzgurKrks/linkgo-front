@@ -1,0 +1,35 @@
+{
+    "backgroundsStyle": [
+        {
+            "id": "1",
+            "bg": "blue",
+            "name":"blue color"
+            
+        },
+        {
+            "id": "2",
+            "bg": "black",
+            "name":"black color"
+        },
+        {
+            "id": "3",
+            "bg": "red",
+            "name":"red color"
+        },
+        {
+            "id": "4",
+            "bg": "green",
+            "name":"green color"
+        },
+        {
+            "id": "5",
+            "bg": "red",
+            "name":"red color"
+        },
+        {
+            "id": "6",
+            "bg": "green",
+            "name":"green color"
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+.content {
+  display: block;
+}
+
+.smallScreenOnly {
+  display: none; /* Varsayılan olarak gizlenir */
+}
+
+@media (max-width: 768px) {
+  .content {
+    display: none; /* Küçük ekranlarda varsayılan içeriği gizler */
+  }
+
+  .smallScreenOnly {
+    display: block; /* Küçük ekranlarda bu içeriği gösterir */
+  }
+}

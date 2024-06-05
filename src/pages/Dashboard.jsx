@@ -1,7 +1,6 @@
-import React from "react";
-import { Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../features/auth/authSlice";
+import { Button } from "@mui/material";
 function Dashboard() {
   const dispatch = useDispatch();
   return (
