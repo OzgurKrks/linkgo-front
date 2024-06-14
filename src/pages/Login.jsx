@@ -134,7 +134,7 @@ const Login = () => {
                 onChange={(e) => setEmailOrUsername(e.target.value)}
               />
               <TextField
-                type={showPassword ? "password" : "text"}
+                type={!showPassword ? "password" : "text"}
                 required
                 label="Password"
                 fullWidth
@@ -147,7 +147,7 @@ const Login = () => {
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton onClick={handleTogglePasswordVisibility}>
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {!showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
                   ),
