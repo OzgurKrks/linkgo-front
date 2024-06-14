@@ -92,14 +92,14 @@ function SinglePage() {
                 className={styles.linkItem}
                 style={{
                   minHeight: "60px",
-                  backgroundColor: userInfo.backgroundColor,
-                  color: userInfo.color,
+                  backgroundColor: userInfo?.backgroundColor,
+                  color: userInfo?.color,
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   wordWrap: "break-word",
-                  borderRadius: userInfo.radius,
-                  boxShadow: userInfo.shadow,
+                  borderRadius: userInfo?.radius,
+                  boxShadow: userInfo?.shadow,
                 }}
               >
                 {m.thumbnail_image && (

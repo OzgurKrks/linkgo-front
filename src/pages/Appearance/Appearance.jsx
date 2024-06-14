@@ -88,7 +88,7 @@ function Appearance() {
         {
           buttonStyle: {
             radius: value.radius,
-            backgroundColor: value.backgroundColor,
+            backgroundColor: value.backgroundColor ? value.backgroundColor : "",
             shadow: value.shadow ? value.shadow : "",
             color: value.color,
             border: value.border ? value.border : "none",
