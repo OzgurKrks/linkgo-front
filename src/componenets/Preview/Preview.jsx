@@ -111,7 +111,7 @@ function Preview({ links, userData, updateLinksData }) {
                               style={{
                                 width: "36px",
                                 height: "36px",
-                                borderRadius: userData.buttonStyle.radius,
+                                borderRadius: userData?.buttonStyle?.radius,
                               }}
                               src={element?.thumbnail_image}
                               alt={element.title}

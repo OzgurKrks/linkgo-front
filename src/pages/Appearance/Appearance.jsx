@@ -87,10 +87,10 @@ function Appearance() {
         API_URL + "updateUserPage",
         {
           buttonStyle: {
-            radius: value.radius,
+            radius: value.radius ? value.radius : "",
             backgroundColor: value.backgroundColor ? value.backgroundColor : "",
             shadow: value.shadow ? value.shadow : "",
-            color: value.color,
+            color: value.color ? value.color : "",
             border: value.border ? value.border : "none",
           },
         },
