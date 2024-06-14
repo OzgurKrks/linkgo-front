@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "https://linkgo-backend-kuok.vercel.app/api/users/";
+const API_URL = process.env.REACT_APP_API_URL + "users/";
 
 //const API_URL = "http://localhost:5000/api/users/";
 
@@ -16,6 +16,7 @@ const register = async (userData) => {
 
 // Login user
 const login = async (userData) => {
+  console.log(API_URL, "asdasdsad");
   const response = await axios.post(API_URL + "login", userData);
 
   if (response.data) {

@@ -28,7 +28,7 @@ const Register = () => {
       if (password === confirmPassword) {
         dispatch(
           register({
-            name: userName,
+            username: userName,
             email: email,
             password: password,
           })

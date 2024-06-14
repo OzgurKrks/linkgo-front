@@ -9,12 +9,17 @@ import TestSideBar from "../../componenets/TestSideBar";
 import SmallNavbar from "../../componenets/SmallNavbar/SmallNavbar";
 import { getMe } from "../../features/user/userSlice";
 import { getLinks, reset } from "../../features/links/linksSlice";
-import CircularProgress from "@mui/material/CircularProgress";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import PreviewSm from "../PreviewSm/PreviewSm";
+import { useLocation } from "react-router-dom";
 
-const theme = createTheme(); // Create a theme instance
+const theme = createTheme();
 
 function Admin() {
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobileSM = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobileMD = useMediaQuery(theme.breakpoints.down("md"));
+
+  const [openPreview, setOpenPreview] = useState(false);
 
   const [items, setItems] = useState([]);
 
@@ -23,7 +28,7 @@ function Admin() {
     (state) => state.links
   );
   const { userData } = useSelector((state) => state.user);
-
+  const location = useLocation().pathname;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,15 +40,26 @@ function Admin() {
   }, [links]);
 
   return (
-    <div style={{ backgroundColor: "#f3f3f1", height: "100vh" }}>
+    <div
+      style={{
+        backgroundColor: "#f3f3f1",
+        height: "100vh",
+        position: "relative",
+      }}
+    >
       <SmallNavbar />
       <Grid container>
-        {!isMobile && (
+        {!isMobileSM && (
           <Grid item sm={4} md={2}>
             <TestSideBar />
           </Grid>
         )}
-        <Grid item sm={isMobile ? 12 : 5} md={isMobile ? 12 : 6.5} xs={12}>
+        <Grid
+          item
+          sm={isMobileSM ? 8 : !location.includes("account") ? 8 : 8}
+          md={isMobileMD ? 8 : !location.includes("account") ? 6.5 : 10}
+          xs={12}
+        >
           <Outlet
             context={{
               someProp: {
@@ -60,15 +76,57 @@ function Admin() {
             }}
           />
         </Grid>
-        {!isMobile && (
-          <Grid item sm={3} md={3.5} xs={12}>
-            <Preview
-              links={links}
-              userData={userData}
-              updateLinksData={updateLinksData}
-            />
-          </Grid>
-        )}
+        {!location.includes("account") &&
+          (!isMobileSM && !isMobileMD ? (
+            <Grid item sm={2} md={3.5} xs={12}>
+              <Preview
+                links={links}
+                userData={userData}
+                updateLinksData={updateLinksData}
+              />
+            </Grid>
+          ) : (
+            <div
+              style={{
+                position: "fixed",
+                bottom: "4%",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <button
+                onClick={() => setOpenPreview(true)}
+                style={{
+                  width: "160px",
+                  padding: "14px",
+                  display: "flex",
+                  justifyContent: "center",
+                  backgroundColor: "white",
+                  borderRadius: "30px",
+                  alignItems: "center",
+                  gap: "6px",
+                  color: "black",
+                  boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.2)",
+                  border: "none",
+                  zIndex: 99999,
+                  cursor: "pointer",
+                }}
+              >
+                <MdOutlineRemoveRedEye opacity="0.8" size={25} />{" "}
+                <span style={{ fontSize: "18px", fontWeight: 600 }}>
+                  Preview
+                </span>
+              </button>
+              <PreviewSm
+                openPreview={openPreview}
+                setOpenPreview={setOpenPreview}
+                updateLinksData={updateLinksData}
+                links={links}
+                userData={userData}
+              />
+            </div>
+          ))}
       </Grid>
     </div>
   );

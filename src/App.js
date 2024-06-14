@@ -18,12 +18,14 @@ import "react-toastify/dist/ReactToastify.css";
 import Links from "./pages/Links/Links";
 import SinglePage from "./pages/SinglePage/SinglePage";
 import Appearance from "./pages/Appearance/Appearance";
+import Account from "./pages/Account/Account";
 
 function App() {
   const { user } = useSelector((state) => state.auth);
   const { links } = useSelector((state) => state.links);
+  const { userData } = useSelector((state) => state.user);
   const [dragLinks, setDragLinks] = useState([]);
-  useEffect(() => {});
+
   useEffect(() => {
     setDragLinks(links);
   }, []);
@@ -31,12 +33,8 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/">
-        {/*   <Route
-          path="dashboard"
-          element={user ? <Dashboard /> : <Navigate to="/" />}
-        /> */}
         <Route index element={<Login />} />
-        <Route path="signup" element={<Register />} />
+        <Route path="signup" element={user ? <Admin /> : <Register />} />
         <Route
           path="resetpassword/:resetpasswordToken"
           element={<ForgotPassword />}
@@ -48,10 +46,12 @@ function App() {
               <Links dragLinks={dragLinks} setDragLinks={setDragLinks} />
             }
           />
+
+          <Route path="account" element={<Account />} />
           <Route path="appearance" element={<Appearance />} />
         </Route>
         <Route path="*" element={<h1>404</h1>} />
-        {/*      <Route path="/:username" element={<SinglePage />} /> */}
+        <Route path="/:username" element={<SinglePage />} />
       </Route>
     )
   );

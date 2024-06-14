@@ -1,0 +1,50 @@
+.accountSettingsWrapper {
+  width: 40%;
+  margin-top: 80px;
+}
+
+@media (max-width: 1500px) {
+  .accountSettingsWrapper {
+    width: 60%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .accountSettingsWrapper {
+    width: 60%;
+  }
+}
+
+@media (max-width: 992px) {
+  .accountSettingsWrapper {
+    width: 60%;
+  }
+}
+
+@media (max-width: 768px) {
+  .accountSettingsWrapper {
+    width: 72%;
+  }
+}
+
+@media (max-width: 576px) {
+  .accountSettingsWrapper {
+    margin-top: 40px;
+    width: 90%;
+  }
+}
+
+.buttons {
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: 30px;
+  border: 1px solid #f3f3f1;
+  background-color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.buttons:hover {
+  background-color: #f3f3f1;
+}

@@ -53,19 +53,7 @@ function SmallNavbar() {
         >
           <MdOutlineFeaturedPlayList size={20} /> Appearance
         </div>
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            fontSize: "14px",
-            padding: "5px",
-            gap: "2px",
-          }}
-        >
-          <TbBrandGoogleAnalytics size={20} /> Analytics
-        </div>{" "}
+
         <div
           style={{
             width: "100%",

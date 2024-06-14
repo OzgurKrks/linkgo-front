@@ -14,7 +14,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function PopUp({
+export default function AddThumbnail({
   open,
   setOpen,
   image,
@@ -22,6 +22,7 @@ export default function PopUp({
   setCroppedImageFile,
   handleImage,
   putHandler,
+  link_item,
 }) {
   const [crop, setCrop] = useState({ aspect: 1 / 1 });
   const [croppedImageUrl, setCroppedImageUrl] = useState(null);
@@ -83,7 +84,6 @@ export default function PopUp({
     if (imgRef.current && crop.width && crop.height) {
       const { file, fileUrl } = await getCroppedImg(imgRef.current, crop);
       setCroppedImageUrl(fileUrl);
-      //setCroppedImageFile(file);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
@@ -107,7 +107,7 @@ export default function PopUp({
         fullWidth
         TransitionComponent={Transition}
       >
-        <DialogTitle>{"Upload Profile Image"}</DialogTitle>
+        <DialogTitle>{"Upload Thumbnail"}</DialogTitle>
         <IconButton
           aria-label="close"
           onClick={handleClose}
@@ -222,8 +222,9 @@ export default function PopUp({
                 color: "white",
                 fontWeight: "bold",
               }}
-              onClick={() => {
-                putHandler();
+              onClick={(e) => {
+                console.log(link_item);
+                putHandler(link_item);
                 setOpen(false);
               }}
             >

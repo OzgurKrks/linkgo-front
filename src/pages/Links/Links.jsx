@@ -8,29 +8,21 @@ import { updateLinksDataHandler } from "../../features/links/linksSlice";
 import styles from "./Links.module.css";
 import { useOutletContext } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import useAxios from "../../hooks/useAxios";
 
-const API_URL = "https://linkgo-backend-kuok.vercel.app/api/links/";
+const API_URL = process.env.REACT_APP_API_URL + "links/";
 
 export default function Links() {
   const { user } = useSelector((state) => state.auth);
   const [load, setLoad] = useState(false);
+  const { put } = useAxios();
 
   const dispatch = useDispatch();
 
   const { someProp } = useOutletContext();
 
   const updateLinks = async () => {
-    await axios.put(
-      API_URL + "updateorder",
-      {
-        orderArray: someProp.items,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      }
-    );
+    await put("/links/updateorder", { orderArray: someProp.items });
   };
 
   useEffect(() => {
@@ -42,7 +34,6 @@ export default function Links() {
     <div
       style={{
         width: "100%",
-        minHeight: "100vh",
         maxHeight: "100vh",
         overflowY: "auto",
         scrollbarWidth: "thin",

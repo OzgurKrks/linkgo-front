@@ -7,6 +7,12 @@
   gap: 20px;
 }
 
+@media (max-width: 1500px) {
+  .itemWrapper {
+    width: 70%;
+  }
+}
+
 @media (max-width: 1200px) {
   .itemWrapper {
     width: 68%;
@@ -27,6 +33,6 @@
 
 @media (max-width: 576px) {
   .itemWrapper {
-    width: 80%;
+    width: 90%;
   }
 }

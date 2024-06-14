@@ -19,7 +19,7 @@ function AddLink({ load, setLoad }) {
       try {
         await axios
           .post(
-            "http://localhost:5000/api/links/setlink",
+            process.env.REACT_APP_API_URL + "links/setlink",
             { url: link }, // İstek gövdesi
             {
               headers: {

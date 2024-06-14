@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "https://linkgo-backend-kuok.vercel.app/api/links/";
+const API_URL = process.env.REACT_APP_API_URL + "links/";
 
 const initialState = {
   links: [],

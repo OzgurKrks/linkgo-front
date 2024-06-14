@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./Preview.module.css";
+import { useSelector, useDispatch } from "react-redux";
+import CircularProgress from "@mui/material/CircularProgress";
+
 function Preview({ links, userData, updateLinksData }) {
-  return (
+  const { isLoading } = useSelector((state) => state.links);
+
+  useEffect(() => {
+    console.log("userData", userData);
+  }, [isLoading]);
+
+  return !isLoading ? (
     <div
       style={{
         width: "99%",
@@ -52,53 +61,196 @@ function Preview({ links, userData, updateLinksData }) {
             marginTop: "30px",
           }}
         >
-          <div style={{ height: "100%", width: "80%" }}>
-            {updateLinksData.length > 0
-              ? updateLinksData
-                  .filter((m) => m.show === true)
-                  .map((element) => (
-                    <div
-                      style={{
-                        width: "100%",
-                        fontSize: "12px",
-                        border: "1px solid black",
-                        borderRadius: "30px",
-                        marginTop: "12px",
-                        textAlign: "center",
-                        padding: "5px",
-                        height: "38px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      {element.title}
-                    </div>
-                  ))
-              : links
-                  .filter((m) => m.show === true)
-                  .map((element) => (
-                    <div
-                      style={{
-                        width: "100%",
-                        fontSize: "12px",
-                        border: "1px solid black",
-                        borderRadius: "30px",
-                        marginTop: "12px",
-                        textAlign: "center",
-                        padding: "5px",
-                        height: "38px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      {element.title}
-                    </div>
-                  ))}
+          <div
+            style={{
+              height: "100%",
+              width: "80%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+              }}
+            >
+              {" "}
+              {/* update links data */}
+              {updateLinksData.length > 0
+                ? updateLinksData
+                    .filter((m) => m.show === true)
+                    .map((element) =>
+                      element.thumbnail_image ? (
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            width: "100%",
+                            fontSize: "11px",
+                            border: "1px solid black",
+                            background: userData.buttonStyle.backgroundColor,
+                            color: userData.buttonStyle.color,
+                            border: userData.buttonStyle.border,
+                            borderRadius: userData.buttonStyle.radius,
+                            boxShadow: userData.buttonStyle.shadow,
+                            marginTop: "12px",
+                            paddingTop: "3px",
+                            paddingBottom: "3px",
+                            minHeight: "48px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "20%",
+                            }}
+                          >
+                            <img
+                              style={{
+                                width: "36px",
+                                height: "36px",
+                                borderRadius: userData.buttonStyle.radius,
+                              }}
+                              src={element?.thumbnail_image}
+                              alt={element.title}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "80%",
+                            }}
+                          >
+                            {element.title}
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            width: "100%",
+                            fontSize: "11px",
+                            background: userData.buttonStyle.backgroundColor,
+                            color: userData.buttonStyle.color,
+                            border: userData.buttonStyle.border,
+                            borderRadius: userData.buttonStyle.radius,
+                            boxShadow: userData.buttonStyle.shadow,
+                            marginTop: "12px",
+                            paddingTop: "3px",
+                            paddingBottom: "3px",
+                            minHeight: "48px",
+                            alignItems: "center",
+                          }}
+                        >
+                          <div
+                            style={{
+                              textAlign: "center",
+                              width: "80%",
+                              maxWidth: "80%",
+                              wordWrap: "break-word",
+                            }}
+                          >
+                            {element.title}
+                          </div>
+                        </div>
+                      )
+                    )
+                : links
+                    .filter((m) => m.show === true)
+                    .map((element) =>
+                      element.thumbnail_image ? (
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            width: "100%",
+                            fontSize: "11px",
+                            border: "1px solid black",
+                            background: userData.buttonStyle.backgroundColor,
+                            color: userData.buttonStyle.color,
+                            border: userData.buttonStyle.border,
+                            borderRadius: userData.buttonStyle.radius,
+                            boxShadow: userData.buttonStyle.shadow,
+                            marginTop: "12px",
+                            paddingTop: "3px",
+                            paddingBottom: "3px",
+                            height: "48px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "20%",
+                            }}
+                          >
+                            <img
+                              style={{
+                                width: "30px",
+                                height: "30px",
+                                objectFit: "cover",
+                              }}
+                              src={element?.thumbnail_image}
+                              alt={element.title}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              width: "80%",
+                            }}
+                          >
+                            {element.title}
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            width: "100%",
+                            fontSize: "12px",
+                            border: "1px solid black",
+                            background: userData.buttonStyle.backgroundColor,
+                            color: userData.buttonStyle.color,
+                            border: userData.buttonStyle.border,
+                            borderRadius: userData.buttonStyle.radius,
+                            boxShadow: userData.buttonStyle.shadow,
+                            marginTop: "12px",
+                            textAlign: "center",
+                            padding: "5px",
+                            height: "38px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {element.title}
+                        </div>
+                      )
+                    )}
+            </div>
           </div>
         </div>
       </div>
+    </div>
+  ) : (
+    <div
+      style={{
+        width: "100%",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <CircularProgress />
     </div>
   );
 }

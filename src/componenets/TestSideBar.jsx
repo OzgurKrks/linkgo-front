@@ -9,8 +9,18 @@ import { LiaStaylinked } from "react-icons/lia";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 import { getMe } from "../features/user/userSlice";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
+const theme = createTheme();
 
 function TestSideBar() {
+  const isXs = useMediaQuery(theme.breakpoints.down("xs"));
+  const isSm = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMd = useMediaQuery(theme.breakpoints.down("md"));
+  const isLg = useMediaQuery(theme.breakpoints.down("lg"));
+  const isXl = useMediaQuery(theme.breakpoints.down("xl"));
+
   const [open, setOpen] = useState(true);
   const [openCheck, setOpenCheck] = useState(true);
 
@@ -43,7 +53,7 @@ function TestSideBar() {
       <div
         className={styles.sidebarwrapper}
         style={{
-          width: open ? "80%" : "25%",
+          width: open ? (isLg || isMd ? "100%" : "80%") : "30%",
           height: "98%",
           backgroundColor: "white",
           borderRadius: open ? "30px" : "40px",
@@ -214,7 +224,7 @@ function TestSideBar() {
             }}
           >
             <div
-              onClick={() => navigate("/admin/appearance")}
+              onClick={() => navigate("/admin/account")}
               style={{
                 width: open ? "90%" : "70%",
                 display: "flex",
@@ -229,6 +239,7 @@ function TestSideBar() {
                 overflow: "hidden",
                 border: open && "1px solid #dadad8",
                 borderRadius: open ? "40px" : "100%",
+                zIndex: 999,
               }}
             >
               <img

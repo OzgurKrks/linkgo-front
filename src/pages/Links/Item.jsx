@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useMotionValue, Reorder, useDragControls } from "framer-motion";
+import { Reorder, useDragControls } from "framer-motion";
 import { RiDraggable } from "react-icons/ri";
 import { PiTrashLight } from "react-icons/pi";
 import Switch from "@mui/material/Switch";
@@ -9,14 +9,21 @@ import { getLinks } from "../../features/links/linksSlice";
 import { TbPencilMinus } from "react-icons/tb";
 import { IoMdClose } from "react-icons/io";
 import { debounce } from "lodash";
+import { Grid } from "@mui/material";
+import { RiGalleryFill } from "react-icons/ri";
+import AddThumbnail from "../../componenets/AddThumbnail";
 
-export const Item = ({ item, load, setLoad }) => {
+const API_URL = process.env.REACT_APP_API_URL + "links/";
+
+export const Item = ({ item, setLoad }) => {
   const dragControls = useDragControls();
   const [checked, setChecked] = useState(item.show);
   const [changeTitle, setChangeTitle] = useState(false);
   const [inputValue, setInputValue] = useState(item.title);
   const [debounceTitleData, setTitleDebounceData] = useState(null);
-  const [debounceUrlData, setUrlDebounceData] = useState("");
+  const [image, setImage] = useState("");
+  const [croppedImageFile, setCroppedImageFile] = useState(null);
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
@@ -38,7 +45,7 @@ export const Item = ({ item, load, setLoad }) => {
     setLoad(true);
     await axios
       .put(
-        `http://localhost:5000/api/links/${id}`,
+        process.env.REACT_APP_API_URL + `links/${id}`,
         { title: debounceTitleData, show: checked },
         {
           headers: {
@@ -55,7 +62,7 @@ export const Item = ({ item, load, setLoad }) => {
   const deleteLinkHandler = async (id) => {
     setLoad(true);
     await axios
-      .delete(`http://localhost:5000/api/links/${id}`, {
+      .delete(process.env.REACT_APP_API_URL + `links/${id}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -74,7 +81,7 @@ export const Item = ({ item, load, setLoad }) => {
     const updateLinkHandler1 = async (id) => {
       await axios
         .put(
-          `http://localhost:5000/api/links/${id}`,
+          process.env.REACT_APP_API_URL + `links/${id}`,
           { show: !checked },
           {
             headers: {
@@ -89,6 +96,39 @@ export const Item = ({ item, load, setLoad }) => {
     updateLinkHandler1(item._id);
   };
 
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    setFileToBase(file);
+    console.log(file);
+  };
+
+  const setFileToBase = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+  };
+  // Handle PUT request
+  const putHandler = async (id) => {
+    try {
+      const response = await axios.put(
+        API_URL + `addThumbnail/${id}`,
+        { thumbnail_image: croppedImageFile ? croppedImageFile : image },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "multipart/form-data", // Specify content type for FormData
+          },
+        }
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (debounceTitleData) {
       updateLinkHandler(item._id);
@@ -97,50 +137,81 @@ export const Item = ({ item, load, setLoad }) => {
 
   return (
     <Reorder.Item
+      style={{ width: "100%" }}
       value={item}
-      id={item.id}
+      id={item._id}
       dragListener={false}
       dragControls={dragControls}
     >
+      {open && (
+        <AddThumbnail
+          open={open}
+          setOpen={setOpen}
+          image={image}
+          setImage={setImage}
+          croppedImageFile={croppedImageFile}
+          setCroppedImageFile={setCroppedImageFile}
+          handleImage={handleImage}
+          putHandler={putHandler}
+          link_item={item._id}
+        />
+      )}
       <div
         style={{
           width: "100%",
           display: "flex",
           alignItems: "center",
-          height: "150px",
+          justifyContent: "center",
+          height: "160px",
           backgroundColor: "white",
           borderRadius: "30px",
           boxShadow: "0px 1px 1px rgba(0, 0, 0, 0.1)",
         }}
       >
         <RiDraggable
-          style={{ cursor: "pointer", touchAction: "none" }}
+          style={{ minWidth: "10%", cursor: "pointer", touchAction: "none" }}
           size={25}
           onPointerDown={(event) => dragControls.start(event)}
         />
         <div
           style={{
-            width: "100%",
+            width: "85%",
             display: "flex",
             flexDirection: "column",
             gap: "5px",
             marginLeft: "10px",
           }}
         >
-          <div style={{ fontSize: "14px", fontWeight: 500 }}>
-            {!changeTitle && item?.title}
-            {changeTitle && (
-              <input
-                style={{
-                  padding: "5px",
-                  border: "none",
-                  width: "70%",
-                  outline: "none",
-                }}
-                value={inputValue}
-                onChange={handleChangeValueHandler}
-              />
-            )}
+          <div
+            style={{
+              display: "flex",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "14px",
+                fontWeight: 500,
+                maxWidth: "80%",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                height: "1.2rem",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {!changeTitle && item?.title}
+              {changeTitle && (
+                <input
+                  style={{
+                    padding: "5px",
+                    border: "none",
+                    width: "70%",
+                    outline: "none",
+                  }}
+                  value={inputValue}
+                  onChange={handleChangeValueHandler}
+                />
+              )}
+            </div>
             {changeTitle ? (
               <IoMdClose onClick={() => setChangeTitle(false)} />
             ) : (
@@ -151,35 +222,62 @@ export const Item = ({ item, load, setLoad }) => {
               />
             )}
           </div>
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-              fontSize: "14px",
-            }}
-          >
-            {item.url}
-            <Switch
-              checked={checked}
-              onChange={handleChange}
-              inputProps={{ "aria-label": "controlled" }}
-            />
-          </div>
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <div></div>
-            <PiTrashLight
-              onClick={() => deleteLinkHandler(item._id)}
-              style={{ marginRight: "12px", cursor: "pointer" }}
-              size={22}
-            />
-          </div>
+
+          <Grid container>
+            <Grid xs={10}>
+              <p
+                style={{
+                  width: "100%",
+                  maxWidth: "100%",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  height: "1.2rem",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {item.url}
+              </p>
+            </Grid>
+            <Grid
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+              xs={2}
+            >
+              <Switch
+                checked={checked}
+                onChange={handleChange}
+                inputProps={{ "aria-label": "controlled" }}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container>
+            <Grid xs={10}>
+              <RiGalleryFill
+                onClick={() => setOpen(true)}
+                style={{ cursor: "pointer" }}
+                size={22}
+              />
+            </Grid>
+            <Grid
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "15px",
+              }}
+              xs={2}
+            >
+              <PiTrashLight
+                onClick={() => deleteLinkHandler(item._id)}
+                style={{ cursor: "pointer" }}
+                size={22}
+              />
+            </Grid>
+          </Grid>
         </div>
       </div>
     </Reorder.Item>

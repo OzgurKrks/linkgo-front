@@ -43,4 +43,80 @@ const backgroundsStyle = [
     img: orangeBg,
   },
 ];
-export { backgroundsStyle };
+
+const FillButtons = [
+  {
+    id: 1,
+    radius: "0px",
+    color: "white",
+    backgroundColor: "black",
+  },
+  {
+    id: 2,
+    radius: "10px",
+    color: "white",
+    backgroundColor: "black",
+  },
+  {
+    id: 3,
+    radius: "30px",
+    color: "white",
+    backgroundColor: "black",
+  },
+];
+
+const OutlineButtons = [
+  {
+    id: 1,
+    radius: "0px",
+    color: "black",
+    backgroundColor: "white",
+
+    border: "1px solid black",
+  },
+  {
+    id: 2,
+    radius: "10px",
+    color: "black",
+    backgroundColor: "white",
+
+    border: "1px solid black",
+  },
+  {
+    id: 3,
+    radius: "30px",
+    color: "black",
+    backgroundColor: "white",
+
+    border: "1px solid black",
+  },
+];
+
+const ShadowButtons = [
+  {
+    id: 1,
+    radius: "0px",
+    color: "black",
+    backgroundColor: "white",
+    shadow: "0 3px 3px rgba(0, 0, 0, 0.8)",
+    border: "1px solid black",
+  },
+  {
+    id: 2,
+    radius: "10px",
+    color: "black",
+    backgroundColor: "white",
+    shadow: "0 3px 3px rgba(0, 0, 0, 0.8)",
+    border: "1px solid black",
+  },
+  {
+    id: 3,
+    radius: "30px",
+    color: "black",
+    backgroundColor: "white",
+    shadow: "0 3px 3px rgba(0, 0, 0, 0.8)",
+    border: "1px solid black",
+  },
+];
+
+export { backgroundsStyle, FillButtons, OutlineButtons, ShadowButtons };

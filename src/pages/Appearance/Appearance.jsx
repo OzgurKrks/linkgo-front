@@ -7,10 +7,15 @@ import { createTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import TextField from "@mui/material/TextField";
 import { getMe } from "../../features/user/userSlice";
-import { backgroundsStyle } from "../../bgTests.js";
+import {
+  backgroundsStyle,
+  FillButtons,
+  OutlineButtons,
+  ShadowButtons,
+} from "../../bgTests.js";
 import styles from "./Apperance.module.css";
 
-const API_URL = "https://linkgo-backend-kuok.vercel.app/api/users/";
+const API_URL = process.env.REACT_APP_API_URL + "users/";
 
 const theme = createTheme(); // Create a theme instance
 
@@ -19,7 +24,7 @@ function Appearance() {
   const [croppedImageFile, setCroppedImageFile] = useState(null);
   const { user } = useSelector((state) => state.auth);
   const { userData } = useSelector((state) => state.user);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -57,15 +62,42 @@ function Appearance() {
     }
   };
 
-  const updateUserPage = async (bg) => {
+  const updateUserPageBackground = async (value) => {
     await axios
       .put(
-        API_URL + "users/updateUserPage",
-        { backgroundColor: bg },
+        API_URL + "updateUserPage",
+        {
+          backgroundColor: value,
+        },
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
-            "Content-Type": "multipart/form-data", // Specify content type for FormData
+            "Content-Type": "application/json", // Specify content type for FormData
+          },
+        }
+      )
+      .then((data) => console.log(data.data))
+      .catch((error) => console.log(error))
+      .finally(() => dispatch(getMe(user)));
+  };
+
+  const updateUserPageButtons = async (value) => {
+    await axios
+      .put(
+        API_URL + "updateUserPage",
+        {
+          buttonStyle: {
+            radius: value.radius,
+            backgroundColor: value.backgroundColor,
+            shadow: value.shadow ? value.shadow : "",
+            color: value.color,
+            border: value.border ? value.border : "none",
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json", // Specify content type for FormData
           },
         }
       )
@@ -133,7 +165,7 @@ function Appearance() {
         <div
           style={{
             width: isMobile ? "90%" : "60%",
-            zIndex: 10,
+            // zIndex: 10,
             backgroundColor: "white",
             padding: "16px",
             borderRadius: "20px",
@@ -368,7 +400,7 @@ function Appearance() {
         <div
           style={{
             width: isMobile ? "90%" : "60%",
-            zIndex: 10,
+            //zIndex: 10,
             backgroundColor: "white",
             //  padding: "16px",
             borderRadius: "20px",
@@ -390,7 +422,7 @@ function Appearance() {
                 }}
                 xs={6}
                 md={3}
-                onClick={() => updateUserPage(m.bg)}
+                onClick={() => updateUserPageBackground(m.bg)}
               >
                 <img
                   src={m.img}
@@ -398,6 +430,168 @@ function Appearance() {
                     width: "100%",
                     height: "100%",
                     borderRadius: "10px",
+                  }}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </div>
+      </div>
+
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "50px",
+        }}
+      >
+        <div
+          style={{
+            width: isMobile ? "90%" : "60%",
+            fontWeight: 500,
+            fontSize: "22px",
+          }}
+        >
+          Buttons
+        </div>
+      </div>
+
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "15px",
+        }}
+      >
+        <div
+          style={{
+            width: isMobile ? "90%" : "60%",
+            //zIndex: 10,
+            backgroundColor: "white",
+            //  padding: "16px",
+            borderRadius: "20px",
+          }}
+        >
+          <Grid container>
+            <div
+              style={{
+                width: "100%",
+                textAlign: "start",
+                marginLeft: "10px",
+                marginTop: "10px",
+                fontWeight: 500,
+              }}
+            >
+              Fill
+            </div>
+            {FillButtons.map((m) => (
+              <Grid
+                className={styles.bgs}
+                key={m.id}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  marginTop: "10px",
+                }}
+                xs={6}
+                md={4}
+              >
+                <button
+                  onClick={() => updateUserPageButtons(m)}
+                  style={{
+                    width: "100%",
+                    height: "40px",
+                    backgroundColor: m.backgroundColor,
+                    color: m.color,
+                    border: "none",
+                    borderRadius: m.radius,
+                  }}
+                />
+              </Grid>
+            ))}
+            <div
+              style={{
+                width: "100%",
+                textAlign: "start",
+                marginLeft: "10px",
+                marginTop: "10px",
+                fontWeight: 500,
+              }}
+            >
+              Outline
+            </div>
+            {OutlineButtons.map((m) => (
+              <Grid
+                className={styles.bgs}
+                key={m.id}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  marginTop: "10px",
+                }}
+                xs={6}
+                md={4}
+              >
+                <button
+                  onClick={() => updateUserPageButtons(m)}
+                  style={{
+                    width: "100%",
+                    height: "40px",
+                    backgroundColor: m.backgroundColor,
+                    color: m.color,
+                    border: m.border,
+                    borderRadius: m.radius,
+                  }}
+                />
+              </Grid>
+            ))}
+            <div
+              style={{
+                width: "100%",
+                textAlign: "start",
+                marginLeft: "10px",
+                marginTop: "10px",
+                fontWeight: 500,
+              }}
+            >
+              Shadow
+            </div>
+            {ShadowButtons.map((m) => (
+              <Grid
+                className={styles.bgs}
+                key={m.id}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  marginTop: "10px",
+                }}
+                xs={6}
+                md={4}
+              >
+                <button
+                  onClick={() => updateUserPageButtons(m)}
+                  style={{
+                    width: "100%",
+                    height: "40px",
+                    backgroundColor: m.backgroundColor,
+                    color: m.color,
+                    border: m.border,
+                    borderRadius: m.radius,
+                    boxShadow: m.shadow,
                   }}
                 />
               </Grid>

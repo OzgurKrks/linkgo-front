@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "https://linkgo-backend-kuok.vercel.app/api/users/";
+const API_URL = process.env.REACT_APP_API_URL + "users/";
 
 const initialState = {
   userData: [],
@@ -25,6 +25,32 @@ export const getMe = createAsyncThunk("user/getMe", async (user, thunkAPI) => {
   }
 });
 
+export const saveDetails = createAsyncThunk(
+  "user/saveDetail",
+  async ({ user, data }, thunkAPI) => {
+    try {
+      const response = await axios.put(
+        `${API_URL}/editAccount`,
+        { ...data },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -35,7 +61,10 @@ export const userSlice = createSlice({
       .addCase(getMe.fulfilled, (state, action) => {
         state.userData = action.payload;
       })
-      .addCase(getMe.rejected, (state, action) => {});
+      .addCase(getMe.rejected, (state, action) => {})
+      .addCase(saveDetails.fulfilled, (state, action) => {
+        state.userData = action.payload;
+      });
   },
 });
 
