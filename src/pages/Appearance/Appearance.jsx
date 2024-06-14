@@ -127,7 +127,7 @@ function Appearance() {
           width: "100%",
           display: "flex",
           justifyContent: "center",
-          marginTop: "50px",
+          marginTop: "30px",
         }}
       >
         <div
@@ -247,8 +247,8 @@ function Appearance() {
             >
               <div
                 style={{
-                  width: "140px",
-                  height: "140px",
+                  width: "100px",
+                  height: "100px",
                   borderRadius: "10px",
                   border: "2px solid black",
                   display: "flex",
@@ -259,8 +259,8 @@ function Appearance() {
               >
                 <div
                   style={{
-                    width: "70px",
-                    height: "70px",
+                    width: "50px",
+                    height: "50px",
                     borderRadius: "50%",
                     backgroundColor: "white",
                     boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)",
@@ -269,8 +269,8 @@ function Appearance() {
               </div>
               <div
                 style={{
-                  width: "140px",
-                  height: "140px",
+                  width: "100px",
+                  height: "100px",
                   borderRadius: "10px",
                   border: "2px solid black",
                   display: "flex",
@@ -281,8 +281,8 @@ function Appearance() {
               >
                 <div
                   style={{
-                    width: "70px",
-                    height: "70px",
+                    width: "50px",
+                    height: "50px",
                     borderRadius: "10%",
                     backgroundColor: "white",
                     boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)",
@@ -400,9 +400,7 @@ function Appearance() {
         <div
           style={{
             width: isMobile ? "90%" : "60%",
-            //zIndex: 10,
             backgroundColor: "white",
-            //  padding: "16px",
             borderRadius: "20px",
           }}
         >
@@ -463,6 +461,7 @@ function Appearance() {
           display: "flex",
           justifyContent: "center",
           marginTop: "15px",
+          marginBottom: "20px",
         }}
       >
         <div

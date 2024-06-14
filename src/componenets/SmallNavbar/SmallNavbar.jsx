@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { styled, ThemeProvider, createTheme } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { IoLinkSharp } from "react-icons/io5";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
-import { TbBrandGoogleAnalytics } from "react-icons/tb";
+import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
@@ -55,6 +55,7 @@ function SmallNavbar() {
         </div>
 
         <div
+          onClick={() => navigate("/admin/account")}
           style={{
             width: "100%",
             display: "flex",
@@ -63,9 +64,11 @@ function SmallNavbar() {
             fontSize: "14px",
             padding: "5px",
             gap: "2px",
+            borderBottom:
+              param.pathname.includes("account") && "1px solid black",
           }}
         >
-          <IoLinkSharp size={20} /> Profile
+          <CgProfile size={20} /> Profile
         </div>
       </div>
     )
