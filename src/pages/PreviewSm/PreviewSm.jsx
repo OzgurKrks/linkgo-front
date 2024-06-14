@@ -5,6 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
+import emptyProfileImage from "../../assets/images/empty_pp.png";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -72,19 +73,32 @@ export default function PreviewSm({
               alignItems: "center",
               justifyContent: "center",
               height: "20%",
-              gap: "20px",
+              gap: "5px",
             }}
           >
-            <img
-              style={{
-                width: "100px",
-                height: "100px",
-                borderRadius: "100%",
-                objectFit: "center",
-              }}
-              src={userData?.profile_image}
-              alt="image"
-            />
+            {userData?.profile_image ? (
+              <img
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  borderRadius: "100%",
+                  objectFit: "center",
+                }}
+                src={userData?.profile_image}
+                alt="image"
+              />
+            ) : (
+              <img
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  borderRadius: "100%",
+                  objectFit: "center",
+                }}
+                src={emptyProfileImage}
+                alt="image"
+              />
+            )}
             <div
               style={{
                 width: "100%",
@@ -93,7 +107,10 @@ export default function PreviewSm({
                 alignItems: "center",
               }}
             >
-              bio
+              <div>
+                {userData?.username ? "@" : ""}
+                {userData?.username ? userData?.username : ""}
+              </div>
             </div>
           </div>
 

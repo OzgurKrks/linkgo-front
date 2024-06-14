@@ -3,14 +3,14 @@ import { IoLinkSharp } from "react-icons/io5";
 import styles from "./TestSiderBar.module.css";
 import { TfiArrowCircleLeft } from "react-icons/tfi";
 import { TfiArrowCircleRight } from "react-icons/tfi";
-import pp from "../assets/images/formImageCampaigns.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import { LiaStaylinked } from "react-icons/lia";
 import { MdOutlineFeaturedPlayList } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 import { getMe } from "../features/user/userSlice";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import emptyProfileImage from "../assets/images/empty_pp.png";
 
 const theme = createTheme();
 
@@ -242,16 +242,35 @@ function TestSideBar() {
                 zIndex: 999,
               }}
             >
-              <img
-                src={userData?.profile_image}
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  objectPosition: "center",
-                  borderRadius: "50%",
-                }}
-              />
-              {open ? <p>@{userData?.name}</p> : ""}
+              {userData?.profile_image ? (
+                <img
+                  src={userData?.profile_image}
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    objectPosition: "center",
+                    borderRadius: "50%",
+                  }}
+                />
+              ) : (
+                <img
+                  src={emptyProfileImage}
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    objectPosition: "center",
+                    borderRadius: "50%",
+                  }}
+                />
+              )}
+              {open ? (
+                <p>
+                  {userData?.username ? "@" : ""}
+                  {userData?.username ? userData?.username : ""}
+                </p>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>

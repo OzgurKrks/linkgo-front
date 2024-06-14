@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styles from "./Preview.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
+import emptyProfileImage from "../../assets/images/empty_pp.png";
 
 function Preview({ links, userData, updateLinksData }) {
   const { isLoading } = useSelector((state) => state.links);
@@ -37,18 +38,31 @@ function Preview({ links, userData, updateLinksData }) {
           }}
         >
           <div>
-            <img
-              src={userData?.profile_image}
-              style={{
-                width: "80px",
-                height: "80px",
-                borderRadius: "50%",
-                objectFit: "cover",
-              }}
-            />
+            {userData?.profile_image ? (
+              <img
+                src={userData?.profile_image}
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+              />
+            ) : (
+              <img
+                src={emptyProfileImage}
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+              />
+            )}
 
             <div style={{ width: "100%", textAlign: "center" }}>
-              @{userData?.name}
+              {userData?.username ? "@" : ""}
+              {userData?.username ? userData?.username : ""}
             </div>
           </div>
         </div>
