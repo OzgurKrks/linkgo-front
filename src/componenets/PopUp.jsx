@@ -83,7 +83,6 @@ export default function PopUp({
     if (imgRef.current && crop.width && crop.height) {
       const { file, fileUrl } = await getCroppedImg(imgRef.current, crop);
       setCroppedImageUrl(fileUrl);
-      //setCroppedImageFile(file);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
@@ -218,10 +217,13 @@ export default function PopUp({
                 padding: "16px",
                 border: "none",
                 borderRadius: "30px",
-                backgroundColor: "rgb(129, 41, 217)",
+                backgroundColor: croppedImageUrl
+                  ? "rgb(129, 41, 217)"
+                  : "#e3e3e3",
                 color: "white",
                 fontWeight: "bold",
               }}
+              disabled={croppedImageUrl !== null ? false : true}
               onClick={() => {
                 putHandler();
                 setOpen(false);
