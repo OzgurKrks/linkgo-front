@@ -2,3 +2,6 @@
   scale: 1.1;
   transition: all 0.4s;
 }
+.buttons:hover {
+  opacity: 0.8;
+}

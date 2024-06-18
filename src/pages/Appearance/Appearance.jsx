@@ -14,6 +14,8 @@ import {
   ShadowButtons,
 } from "../../bgTests.js";
 import styles from "./Apperance.module.css";
+import emptyProfileImage from "../../assets/images/empty_pp.png";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const API_URL = process.env.REACT_APP_API_URL + "users/";
 
@@ -27,6 +29,7 @@ function Appearance() {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [loaded, setLoaded] = useState(false);
 
   //handle and convert it in base 64
   const handleImage = (e) => {
@@ -43,6 +46,7 @@ function Appearance() {
   };
   // Handle PUT request
   const putHandler = async () => {
+    setLoaded(true);
     try {
       const response = await axios.put(
         API_URL + "editUser",
@@ -58,6 +62,31 @@ function Appearance() {
       console.log(response.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoaded(false);
+    }
+  };
+
+  // Handle DELETE request
+  const deleteProfileImage = async () => {
+    setLoaded(true);
+    try {
+      const response = await axios.delete(
+        API_URL + "deleteProfileImage",
+
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      response.data && dispatch(getMe(user));
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoaded(false);
     }
   };
 
@@ -181,15 +210,41 @@ function Appearance() {
                   height: "100px",
                 }}
               >
-                <img
-                  src={userData?.profile_image}
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    objectFit: "cover",
-                    borderRadius: "50%",
-                  }}
-                />
+                {!loaded ? (
+                  userData?.profile_image ? (
+                    <img
+                      src={userData?.profile_image}
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        objectFit: "cover",
+                        borderRadius: "50%",
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src={emptyProfileImage}
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        objectFit: "cover",
+                        borderRadius: "50%",
+                      }}
+                    />
+                  )
+                ) : (
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "20px",
+                    }}
+                  >
+                    <CircularProgress />
+                  </div>
+                )}
               </div>
             </Grid>
             <Grid item md={9.5} xs={9.5}>
@@ -205,6 +260,7 @@ function Appearance() {
                 <div style={{ width: "93%" }}>
                   <button
                     onClick={() => setOpen(true)}
+                    className={styles.buttons}
                     style={{
                       width: "100%",
                       backgroundColor: "#8129D9",
@@ -221,6 +277,8 @@ function Appearance() {
                     Add
                   </button>
                   <button
+                    onClick={deleteProfileImage}
+                    className={styles.buttons}
                     style={{
                       width: "100%",
                       backgroundColor: "white",
