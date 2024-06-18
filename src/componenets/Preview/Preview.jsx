@@ -96,6 +96,7 @@ function Preview({ links, userData, updateLinksData }) {
                     .map((element) =>
                       element.thumbnail_image ? (
                         <div
+                          onClick={() => window.open(element.url, "_blank")}
                           style={{
                             display: "flex",
                             justifyContent: "center",
@@ -111,6 +112,7 @@ function Preview({ links, userData, updateLinksData }) {
                             paddingTop: "3px",
                             paddingBottom: "3px",
                             minHeight: "48px",
+                            cursor: "pointer",
                           }}
                         >
                           <div
@@ -144,6 +146,7 @@ function Preview({ links, userData, updateLinksData }) {
                         </div>
                       ) : (
                         <div
+                          onClick={() => window.open(element.url, "_blank")}
                           style={{
                             display: "flex",
                             justifyContent: "center",
@@ -159,6 +162,7 @@ function Preview({ links, userData, updateLinksData }) {
                             paddingBottom: "3px",
                             minHeight: "48px",
                             alignItems: "center",
+                            cursor: "pointer",
                           }}
                         >
                           <div
@@ -179,6 +183,7 @@ function Preview({ links, userData, updateLinksData }) {
                     .map((element) =>
                       element.thumbnail_image ? (
                         <div
+                          onClick={() => window.open(element.url, "_blank")}
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -194,6 +199,7 @@ function Preview({ links, userData, updateLinksData }) {
                             paddingTop: "3px",
                             paddingBottom: "3px",
                             height: "48px",
+                            cursor: "pointer",
                           }}
                         >
                           <div
@@ -227,6 +233,7 @@ function Preview({ links, userData, updateLinksData }) {
                         </div>
                       ) : (
                         <div
+                          onClick={() => window.open(element.url, "_blank")}
                           style={{
                             width: "100%",
                             fontSize: "12px",
@@ -243,6 +250,7 @@ function Preview({ links, userData, updateLinksData }) {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
+                            cursor: "pointer",
                           }}
                         >
                           {element.title}

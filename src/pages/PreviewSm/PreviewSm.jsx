@@ -128,6 +128,7 @@ export default function PreviewSm({
                   .map((element) =>
                     element.thumbnail_image ? (
                       <div
+                        onClick={() => window.open(element.url, "_blank")}
                         style={{
                           display: "flex",
                           justifyContent: "space-between",
@@ -143,6 +144,7 @@ export default function PreviewSm({
                           border: userData?.buttonStyle?.border,
                           borderRadius: userData?.buttonStyle?.radius,
                           boxShadow: userData?.buttonStyle?.shadow,
+                          cursor: "pointer",
                         }}
                       >
                         <div
@@ -180,6 +182,7 @@ export default function PreviewSm({
                       </div>
                     ) : (
                       <div
+                        onClick={() => window.open(element.url, "_blank")}
                         style={{
                           width: "100%",
                           fontSize: "12px",
@@ -195,6 +198,7 @@ export default function PreviewSm({
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
+                          cursor: "pointer",
                         }}
                       >
                         <div style={{ width: "80%", wordWrap: "break-word" }}>
@@ -208,6 +212,7 @@ export default function PreviewSm({
                   .map((element) =>
                     element.thumbnail_image ? (
                       <div
+                        onClick={() => window.open(element.url, "_blank")}
                         style={{
                           display: "flex",
                           justifyContent: "space-between",
@@ -223,6 +228,7 @@ export default function PreviewSm({
                           minHeight: "48px",
                           paddingTop: "3px",
                           paddingBottom: "3px",
+                          cursor: "pointer",
                         }}
                       >
                         <div
@@ -259,6 +265,7 @@ export default function PreviewSm({
                       </div>
                     ) : (
                       <div
+                        onClick={() => window.open(element.url, "_blank")}
                         style={{
                           width: "100%",
                           fontSize: "12px",
@@ -270,12 +277,12 @@ export default function PreviewSm({
                           boxShadow: userData?.buttonStyle?.shadow,
                           marginTop: "12px",
                           textAlign: "center",
-                          // padding: "5px",
                           height: "38px",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
                           minHeight: "40px",
+                          cursor: "pointer",
                         }}
                       >
                         {element.title}

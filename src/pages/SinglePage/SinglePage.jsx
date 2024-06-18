@@ -89,6 +89,7 @@ function SinglePage() {
           {links &&
             links.map((m) => (
               <div
+                onClick={() => window.open(m.url, "_blank")}
                 className={styles.linkItem}
                 style={{
                   minHeight: "60px",
