@@ -30,6 +30,9 @@ function Appearance() {
   const dispatch = useDispatch();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [loaded, setLoaded] = useState(false);
+  const [bio, setBio] = useState("");
+  const [title, setTitle] = useState("");
+  const [showUpdateButton, setShowUpdateButton] = useState(false);
 
   //handle and convert it in base 64
   const handleImage = (e) => {
@@ -134,9 +137,34 @@ function Appearance() {
       .finally(() => dispatch(getMe(user)));
   };
 
+  const updateBioAndTitle = async () => {
+    await axios
+      .put(
+        API_URL + "updateBioAndTitle",
+        {
+          profile_bio: bio,
+          profile_title: title,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json", // Specify content type for FormData
+          },
+        }
+      )
+      .then((data) => console.log(data.data))
+      .catch((error) => console.log(error))
+      .finally(() => setShowUpdateButton(false));
+  };
+
   useEffect(() => {
     dispatch(getMe(user));
   }, []);
+
+  useEffect(() => {
+    setTitle(userData?.profile_title);
+    setBio(userData?.profile_bio);
+  }, [userData]);
 
   return (
     <div
@@ -193,7 +221,6 @@ function Appearance() {
         <div
           style={{
             width: isMobile ? "90%" : "60%",
-            // zIndex: 10,
             backgroundColor: "white",
             padding: "16px",
             borderRadius: "20px",
@@ -359,7 +386,12 @@ function Appearance() {
           >
             <TextField
               id="filled-basic"
-              label="Profile Title"
+              //  label="Profile Title"
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value.trim());
+                setShowUpdateButton(true);
+              }}
               inputMode="text"
               fullWidth
               variant="filled"
@@ -382,10 +414,15 @@ function Appearance() {
 
             <TextField
               id="outlined-multiline-static"
-              label="Bio"
+              // label="Bio"
               multiline
               rows={4}
               fullWidth
+              value={bio}
+              onChange={(e) => {
+                setBio(e.target.value.trim());
+                setShowUpdateButton(true);
+              }}
               inputMode="text"
               sx={{
                 backgroundColor: "#f2f2f2",
@@ -402,6 +439,37 @@ function Appearance() {
                 },
               }}
             />
+          </div>
+
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "end",
+              marginTop: "7px",
+            }}
+          >
+            {showUpdateButton ? (
+              <button
+                onClick={updateBioAndTitle}
+                style={{
+                  padding: "8px",
+                  width: "150px",
+                  backgroundColor: "blueviolet",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "10px",
+                }}
+              >
+                Update
+              </button>
+            ) : (
+              <div
+                style={{
+                  padding: "8px",
+                }}
+              ></div>
+            )}
           </div>
           <hr style={{ marginTop: "30px" }} />
           <div
