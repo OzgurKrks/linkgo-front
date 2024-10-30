@@ -53,7 +53,6 @@ function SinglePage() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                //marginRight: "10px",
               }}
             >
               {" "}
