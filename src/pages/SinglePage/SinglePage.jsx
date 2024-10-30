@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import styles from "./SinglePage.module.css";
 import { PiDotsThreeBold } from "react-icons/pi";
-
+//
 function SinglePage() {
   const { username } = useParams();
   const [profileImage, setProfileImage] = useState(null);
