@@ -223,7 +223,6 @@ export default function AddThumbnail({
                 fontWeight: "bold",
               }}
               onClick={(e) => {
-                console.log(link_item);
                 putHandler(link_item);
                 setOpen(false);
               }}

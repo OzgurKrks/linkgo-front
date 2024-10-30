@@ -7,10 +7,6 @@ import emptyProfileImage from "../../assets/images/empty_pp.png";
 function Preview({ links, userData, updateLinksData }) {
   const { isLoading } = useSelector((state) => state.links);
 
-  useEffect(() => {
-    console.log("userData", userData);
-  }, [isLoading]);
-
   return !isLoading ? (
     <div
       style={{
