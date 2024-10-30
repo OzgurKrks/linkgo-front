@@ -15,9 +15,7 @@ function SmallNavbar() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(param.pathname.includes("appearance"));
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     isMobile && (

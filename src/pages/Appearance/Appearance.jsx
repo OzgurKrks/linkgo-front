@@ -62,9 +62,7 @@ function Appearance() {
         }
       );
       response.data && dispatch(getMe(user));
-      console.log(response.data);
     } catch (error) {
-      console.log(error);
     } finally {
       setLoaded(false);
     }
